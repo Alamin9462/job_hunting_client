@@ -6,6 +6,7 @@ import { FiClock } from "react-icons/fi";
 
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { fetchJobs } from "../store/jobSlice";
+import { Link } from "react-router-dom";
 
 const LatestJobs = () => {
   const { jobs } = useAppSelector((state) => state.jobs);
@@ -31,7 +32,7 @@ const LatestJobs = () => {
           </h2>
 
           <div className="flex items-center gap-2 text-indigo-600 font-medium cursor-pointer hover:gap-3 transition-all duration-300">
-            Show All Jobs
+            <Link to="/jobs">View All Jobs</Link>
             <FaArrowRight />
           </div>
         </div>

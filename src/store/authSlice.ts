@@ -5,20 +5,22 @@ import { apiFetch } from "./api";
 interface AuthState {
   token: string | null;
   user: any | null;
+  role: "admin" | "user" | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: AuthState = {
   token: localStorage.getItem("token"),
-  user: null,
+  user: JSON.parse(localStorage.getItem("user") || "null"),
+  role: (localStorage.getItem("role") as "admin" | "user" | null) || null,
   loading: false,
   error: null,
 };
 
 export const register = createAsyncThunk(
   "auth/register",
-  async (credentials: { email: string; password: string }) => {
+  async (credentials: { email: string; password: string; name: string; role: string }) => {
     const data = await apiFetch(`/auth/register`, {
       method: "POST",
       body: JSON.stringify(credentials),
@@ -29,7 +31,7 @@ export const register = createAsyncThunk(
 
 export const login = createAsyncThunk(
   "auth/login",
-  async (credentials: { email: string; password: string }) => {
+  async (credentials: { email: string; password: string; role: string }) => {
     const data = await apiFetch(`/auth/login`, {
       method: "POST",
       body: JSON.stringify(credentials),
@@ -45,7 +47,10 @@ const authSlice = createSlice({
     logout(state) {
       state.token = null;
       state.user = null;
+      state.role = null;
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("role");
     },
   },
   extraReducers: (builder) => {
@@ -58,8 +63,11 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user || null;
         state.token = action.payload.token || null;
+        state.role = action.payload.role || null;
         if (state.token) {
           localStorage.setItem("token", state.token);
+          localStorage.setItem("user", JSON.stringify(state.user));
+          localStorage.setItem("role", state.role || "");
         }
       })
       .addCase(register.rejected, (state, action) => {
@@ -74,8 +82,11 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user || null;
         state.token = action.payload.token || null;
+        state.role = action.payload.role || null;
         if (state.token) {
           localStorage.setItem("token", state.token);
+          localStorage.setItem("user", JSON.stringify(state.user));
+          localStorage.setItem("role", state.role || "");
         }
       })
       .addCase(login.rejected, (state, action) => {

@@ -1,7 +1,7 @@
 import { Input, Button } from "antd";
 import { FaSearch, FaMapMarkerAlt } from "react-icons/fa";
 import Image from "../assets/slider.png";
-import Navbar from "./Navbar";
+
 import React from "react";
 
 interface BannerProps {
@@ -18,7 +18,6 @@ const HeroSection: React.FC<BannerProps> = ({ onSearch }) => {
 
   return (
     <div className=" px-[124px] bg-[#f9f8fd]">
-      <Navbar />
       <div className="grid md:grid-cols-2 gap-10 items-center">
         {/* Left Content */}
         <div>
