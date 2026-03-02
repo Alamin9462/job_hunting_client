@@ -52,6 +52,10 @@ const authSlice = createSlice({
       localStorage.removeItem("user");
       localStorage.removeItem("role");
     },
+    setRole(state, action: PayloadAction<"admin" | "user">) {
+      state.role = action.payload;
+      localStorage.setItem("role", action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -63,7 +67,11 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user || null;
         state.token = action.payload.token || null;
-        state.role = action.payload.role || null;
+        // backend might return role either at top level or nested under user
+        state.role =
+          action.payload.role ||
+          action.payload.user?.role ||
+          null;
         if (state.token) {
           localStorage.setItem("token", state.token);
           localStorage.setItem("user", JSON.stringify(state.user));
@@ -82,7 +90,10 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user || null;
         state.token = action.payload.token || null;
-        state.role = action.payload.role || null;
+        state.role =
+          action.payload.role ||
+          action.payload.user?.role ||
+          null;
         if (state.token) {
           localStorage.setItem("token", state.token);
           localStorage.setItem("user", JSON.stringify(state.user));
@@ -96,5 +107,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, setRole } = authSlice.actions;
 export default authSlice.reducer;

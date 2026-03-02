@@ -10,8 +10,8 @@ const Navbar = () => {
   const isLogged = useAppSelector((state) => !!state.auth.token);
 
   return (
-    <div className="  border-b top-0 z-50 border-gray-100">
-      <div className=" mx-auto flex justify-between items-center  py-5">
+    <div className=" bg-[#f9f8fd]">
+      <div className=" mx-auto flex justify-between items-center py-5">
 
         {/* Left Section */}
         <div className="flex items-center gap-12">
@@ -77,7 +77,8 @@ const Navbar = () => {
                 </Button>
               </Link>
             </>
-          )}        </div>
+          )}        
+          </div>
 
       </div>
     </div>

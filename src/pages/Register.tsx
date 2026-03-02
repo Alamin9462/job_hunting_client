@@ -49,7 +49,11 @@ const Register: React.FC = () => {
       .then((res: any) => {
         if (res.payload && res.payload.token) {
           message.success("Registered and logged in successfully!");
-          navigate(selectedRole === "admin" ? "/admin-dashboard" : "/user-dashboard");
+          if (selectedRole === "admin") {
+            navigate("/admin-dashboard");
+          } else {
+            navigate("/jobs");
+          }
         }
       })
       .catch(() => {

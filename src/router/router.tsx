@@ -6,7 +6,10 @@ import JobDetails from "../pages/JobDetails";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import AdminDashboard from "../pages/AdminDashboard";
-import UserDashboard from "../pages/UserDashboard";
+import AdminProtectedRoute from "./AdminProtectedRoute";
+import NotFound from "../pages/NotFound";
+
+// import UserDashboard from "../pages/UserDashboard";
 
 const router = createBrowserRouter([
   // 🌍 Public Routes
@@ -40,12 +43,18 @@ const router = createBrowserRouter([
       },
       {
         path: "admin-dashboard",
-        element: <AdminDashboard />,
+        element: (
+          <AdminProtectedRoute>
+            <AdminDashboard />
+          </AdminProtectedRoute>
+        ),
       },
+      // user-dashboard removed; general users don't need a dashboard
       {
-        path: "user-dashboard",
-        element: <UserDashboard />,
+        path: "*",
+        element: <NotFound />,
       },
+
     ],
   },
 ]);

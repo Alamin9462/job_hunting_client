@@ -1,14 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
 import { apiFetch } from "./api";
 
 export interface Application {
+  cover: any;
   _id?: string;
   name: string;
   email: string;
-  resume: string;
-  cover?: string;
-  jobId?: string;
-}
+  // backend uses resume_link
+  resume_link: string;
+  // backend uses cover_note
+  cover_note?: string;
+  job_id?: string;
+}  
+
 
 interface ApplicationState {
   applications: Application[];
@@ -25,9 +30,17 @@ const initialState: ApplicationState = {
 export const submitApplication = createAsyncThunk(
   "applications/submit",
   async (app: Application) => {
+    // convert frontend model to backend naming
+    const payload = {
+      name: app.name,
+      email: app.email,
+      resume_link: app.resume_link,
+      cover_note: app.cover_note,
+      job_id: app.job_id,
+    };
     const data = await apiFetch(`/applications`, {
       method: "POST",
-      body: JSON.stringify(app),
+      body: JSON.stringify(payload),
     });
     return data as Application;
   }

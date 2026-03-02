@@ -10,8 +10,12 @@ import {
   Select,
   Modal,
   message,
-  Statistic,
   Empty,
+  Row,
+  Col,
+  Descriptions,
+  Tag,
+  Avatar,
 } from "antd";
 import {
   FaChartBar,
@@ -34,6 +38,11 @@ const AdminDashboard: React.FC = () => {
   const { users } = useAppSelector((state) => state.users);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
+  const [appStatusFilter, setAppStatusFilter] = useState<string>("");
+  const [appSearch, setAppSearch] = useState<string>("");
+  const [selectedApplication, setSelectedApplication] = useState<any>(null);
+  const [viewAppOpen, setViewAppOpen] = useState(false);
+
 
   useEffect(() => {
     dispatch(fetchJobs());
@@ -160,6 +169,29 @@ const AdminDashboard: React.FC = () => {
       width: 180,
     },
     {
+      title: "Resume",
+      dataIndex: "resume_link",
+      key: "resume",
+      width: 150,
+      render: (link: string) =>
+        link ? (
+          <a href={link} target="_blank" rel="noreferrer" className="text-indigo-600">
+            View Resume
+          </a>
+        ) : (
+          <span className="text-gray-400">No resume</span>
+        ),
+    },
+    {
+      title: "Cover Note",
+      dataIndex: "cover_note",
+      key: "cover_note",
+      width: 200,
+      render: (note: string) => (
+        <span>{note ? (note.length > 120 ? note.slice(0, 120) + "..." : note) : "-"}</span>
+      ),
+    },
+    {
       title: "Status",
       dataIndex: "status",
       key: "status",
@@ -173,6 +205,30 @@ const AdminDashboard: React.FC = () => {
               : "orange";
         return <span style={{ color }}>{status}</span>;
       },
+    },
+    {
+      title: "Submitted At",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      width: 160,
+    },
+    {
+      title: "Actions",
+      key: "actions",
+      width: 140,
+      render: (_: any, record: any) => (
+        <div className="flex gap-2">
+          <Button
+            size="small"
+            onClick={() => {
+              setSelectedApplication(record);
+              setViewAppOpen(true);
+            }}
+          >
+            View
+          </Button>
+        </div>
+      ),
     },
     {
       title: "Date Applied",
@@ -228,36 +284,67 @@ const AdminDashboard: React.FC = () => {
         </span>
       ),
       children: (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="rounded-lg shadow-sm">
-            <Statistic
-              title="Total Jobs"
-              value={jobs?.length || 0}
-              prefix={<FaFileAlt className="text-indigo-600 mr-2" />}
-            />
-          </Card>
-          <Card className="rounded-lg shadow-sm">
-            <Statistic
-              title="Total Applications"
-              value={applications?.length || 0}
-              prefix={<FaBell className="text-orange-600 mr-2" />}
-            />
-          </Card>
-          <Card className="rounded-lg shadow-sm">
-            <Statistic
-              title="Total Users"
-              value={users?.length || 0}
-              prefix={<FaUsers className="text-green-600 mr-2" />}
-            />
-          </Card>
-          <Card className="rounded-lg shadow-sm">
-            <Statistic
-              title="Acceptance Rate"
-              value={75}
-              precision={0}
-              suffix="%"
-              prefix={<FaChartBar className="text-red-600 mr-2" />}
-            />
+        <div className="mb-8">
+          <Row gutter={[16, 16]} className="mb-6">
+            <Col xs={24} sm={12} md={6}>
+              <Card className="rounded-lg shadow-sm hover:shadow-md transition">
+                <div className="flex items-center gap-3">
+                  <Avatar size={48} icon={<FaFileAlt />} />
+                  <div>
+                    <div className="text-sm text-gray-500">Total Jobs</div>
+                    <div className="text-2xl font-bold">{jobs?.length || 0}</div>
+                  </div>
+                </div>
+              </Card>
+            </Col>
+            <Col xs={24} sm={12} md={6}>
+              <Card className="rounded-lg shadow-sm hover:shadow-md transition">
+                <div className="flex items-center gap-3">
+                  <Avatar size={48} icon={<FaBell />} />
+                  <div>
+                    <div className="text-sm text-gray-500">Applications</div>
+                    <div className="text-2xl font-bold">{applications?.length || 0}</div>
+                  </div>
+                </div>
+              </Card>
+            </Col>
+            <Col xs={24} sm={12} md={6}>
+              <Card className="rounded-lg shadow-sm hover:shadow-md transition">
+                <div className="flex items-center gap-3">
+                  <Avatar size={48} icon={<FaUsers />} />
+                  <div>
+                    <div className="text-sm text-gray-500">Users</div>
+                    <div className="text-2xl font-bold">{users?.length || 0}</div>
+                  </div>
+                </div>
+              </Card>
+            </Col>
+            <Col xs={24} sm={12} md={6}>
+              <Card className="rounded-lg shadow-sm hover:shadow-md transition">
+                <div className="flex items-center gap-3">
+                  <Avatar size={48} icon={<FaChartBar />} />
+                  <div>
+                    <div className="text-sm text-gray-500">Acceptance</div>
+                    <div className="text-2xl font-bold">75%</div>
+                  </div>
+                </div>
+              </Card>
+            </Col>
+          </Row>
+
+          <Card className="rounded-lg">
+            <h3 className="text-lg font-semibold mb-2">Recent Applications</h3>
+            {applications && applications.length > 0 ? (
+              <Table
+                columns={applicationColumns}
+                dataSource={applications.slice().reverse()}
+                rowKey={(r: any) => r._id || r.id}
+                pagination={{ pageSize: 8 }}
+                scroll={{ x: 1000 }}
+              />
+            ) : (
+              <Empty description="No applications yet" />
+            )}
           </Card>
         </div>
       ),
@@ -285,7 +372,7 @@ const AdminDashboard: React.FC = () => {
             <Table
               columns={jobColumns}
               dataSource={jobs}
-              rowKey="id"
+              rowKey={(r: any) => r._id || r.id}
               pagination={{ pageSize: 10 }}
               scroll={{ x: 1000 }}
             />
@@ -305,11 +392,44 @@ const AdminDashboard: React.FC = () => {
       children: (
         <div>
           <h2 className="text-2xl font-bold mb-6">Job Applications</h2>
+
+          {/* filter & search */}
+          <div className="flex flex-wrap gap-4 mb-4">
+            <Select
+              placeholder="Filter by status"
+              allowClear
+              style={{ width: 200 }}
+              value={appStatusFilter || undefined}
+              onChange={(val) => setAppStatusFilter(val || "")}
+            >
+              <Select.Option value="pending">Pending</Select.Option>
+              <Select.Option value="accepted">Accepted</Select.Option>
+              <Select.Option value="rejected">Rejected</Select.Option>
+            </Select>
+            <Input
+              placeholder="Search applicant"
+              value={appSearch}
+              onChange={(e) => setAppSearch(e.target.value)}
+              style={{ width: 200 }}
+            />
+          </div>
+
           {applications && applications.length > 0 ? (
             <Table
               columns={applicationColumns}
-              dataSource={applications}
-              rowKey="id"
+              dataSource={applications
+                .filter((a: any) =>
+                  appStatusFilter ? a.status === appStatusFilter : true
+                )
+                .filter((a: any) =>
+                  appSearch
+                    ? a.applicant?.name
+                        .toLowerCase()
+                        .includes(appSearch.toLowerCase())
+                    : true
+                )
+              }
+              rowKey={(r: any) => r._id || r.id}
               pagination={{ pageSize: 10 }}
               scroll={{ x: 1000 }}
             />
@@ -333,7 +453,7 @@ const AdminDashboard: React.FC = () => {
             <Table
               columns={userColumns}
               dataSource={users}
-              rowKey="id"
+              rowKey={(r: any) => r._id || r.id}
               pagination={{ pageSize: 10 }}
               scroll={{ x: 1000 }}
             />
@@ -362,6 +482,41 @@ const AdminDashboard: React.FC = () => {
       <Card className="rounded-xl shadow-sm border-0 mb-6">
         <Tabs items={tabItems} size="large" />
       </Card>
+
+      {/* View Application Modal */}
+      <Modal
+        title={selectedApplication ? `Application - ${selectedApplication?.applicant?.name || "Unknown"}` : "Application Details"}
+        open={viewAppOpen}
+        onCancel={() => {
+          setViewAppOpen(false);
+          setSelectedApplication(null);
+        }}
+        footer={[
+          <Button key="close" onClick={() => { setViewAppOpen(false); setSelectedApplication(null); }}>
+            Close
+          </Button>
+        ]}
+        width={800}
+      >
+        {selectedApplication ? (
+          <Descriptions column={1} bordered>
+            <Descriptions.Item label="Applicant Name">{selectedApplication.applicant?.name}</Descriptions.Item>
+            <Descriptions.Item label="Email">{selectedApplication.applicant?.email}</Descriptions.Item>
+            <Descriptions.Item label="Applied For">{selectedApplication.job?.title || selectedApplication.job_id || "-"}</Descriptions.Item>
+            <Descriptions.Item label="Resume">{
+              selectedApplication.resume_link ? (
+                <a href={selectedApplication.resume_link} target="_blank" rel="noreferrer">Open Resume</a>
+              ) : "-"
+            }</Descriptions.Item>
+            <Descriptions.Item label="Cover Note">{selectedApplication.cover_note || "-"}</Descriptions.Item>
+            <Descriptions.Item label="Status"><Tag color={selectedApplication.status === 'accepted' ? 'green' : selectedApplication.status === 'rejected' ? 'red' : 'orange'}>{selectedApplication.status || 'pending'}</Tag></Descriptions.Item>
+            <Descriptions.Item label="Submitted At">{selectedApplication.createdAt || selectedApplication.appliedAt || "-"}</Descriptions.Item>
+            <Descriptions.Item label="Raw Data"><pre className="whitespace-pre-wrap text-xs">{JSON.stringify(selectedApplication, null, 2)}</pre></Descriptions.Item>
+          </Descriptions>
+        ) : (
+          <Empty description="No application selected" />
+        )}
+      </Modal>
 
       {/* Post Job Modal */}
       <Modal

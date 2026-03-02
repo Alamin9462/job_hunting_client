@@ -225,14 +225,14 @@ const Admin: React.FC = () => {
       <div className="space-y-4">
         {applications.map((a) => (
           <Card
-            key={a._id || a.email + a.jobId}
+            key={a._id || a.email + a.job_id}
             className="rounded-2xl shadow-sm border-0"
           >
             <p className="font-semibold text-gray-800">
               {a.name} ({a.email})
             </p>
             <p className="text-gray-500 text-sm mt-1">
-              Applied to Job ID: {a.jobId}
+              Applied to Job ID: {a.job_id}
             </p>
             {a.cover && (
               <p className="mt-2 text-gray-600 text-sm">

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Card, Tag, Form, Input, Button, message } from "antd";
@@ -25,8 +26,26 @@ const JobDetails: React.FC = () => {
   }
 
   interface ApplicationForm { name: string; email: string; resume: string; cover?: string; }
+
+  type ApplicationPayload = {
+    cover: any;
+    name: string;
+    email: string;
+    resume_link: string;
+    cover_note?: string;
+    job_id?: string;
+  };
+
   const onFinish = (values: ApplicationForm) => {
-    const payload = { ...values, jobId: id };
+   
+    const payload: ApplicationPayload = {
+      cover: values.cover,          
+      name: values.name,
+      email: values.email,
+      resume_link: values.resume,
+      cover_note: values.cover,
+      job_id: id,
+    };
     dispatch(submitApplication(payload))
       .then(() => {
         message.success("Application submitted!");
@@ -38,7 +57,7 @@ const JobDetails: React.FC = () => {
   };
 
   return (
-    <div className="px-4 md:px-[124px] py-8">
+    <div className="px-4 md:px-31 py-8">
       <Button type="link" onClick={() => navigate(-1)}>
         &larr; Back to jobs
       </Button>

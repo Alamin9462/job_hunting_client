@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Form, Input, Button, message, Card, Divider, Space, Tag } from "antd";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { login } from "../store/authSlice";
+import { login, setRole } from "../store/authSlice";
 import { useNavigate, Link } from "react-router-dom";
 import {
   FaEnvelope,
@@ -53,7 +53,13 @@ const Login: React.FC = () => {
       .then((res: any) => {
         if (res.payload && res.payload.token) {
           message.success(`Welcome ${selectedRole === "admin" ? "Admin" : "User"}!`);
-          navigate(selectedRole === "admin" ? "/admin-dashboard" : "/user-dashboard");
+          // ensure role is set in state/localStorage even if backend omits it
+          if (selectedRole) dispatch(setRole(selectedRole));
+          if (selectedRole === "admin") {
+            navigate("/admin-dashboard");
+          } else {
+            navigate("/jobs");
+          }
         }
       })
       .catch(() => {

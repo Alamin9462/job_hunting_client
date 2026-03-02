@@ -14,27 +14,6 @@ const UserNavbar = () => {
 
   const userMenu: MenuProps["items"] = [
     {
-      key: "dashboard",
-      label: "My Dashboard",
-      onClick: () => {
-        // navigate to user dashboard
-      },
-    },
-    {
-      key: "applications",
-      label: "My Applications",
-      onClick: () => {
-        // navigate to applications
-      },
-    },
-    {
-      key: "saved-jobs",
-      label: "Saved Jobs",
-      onClick: () => {
-        // navigate to saved jobs
-      },
-    },
-    {
       key: "profile",
       label: "Profile",
       onClick: () => {
@@ -54,8 +33,8 @@ const UserNavbar = () => {
   ];
 
   return (
-    <div className="border-b border-gray-100 sticky top-0 z-50 bg-white shadow-sm">
-      <div className="mx-auto flex justify-between items-center px-4 md:px-[124px] py-4">
+    <div className="border-b border-gray-100 sticky top-0 z-50 bg-[#f9f8fd]">
+      <div className="mx-auto flex justify-between items-center px-4 md:px-31 py-4">
         {/* Left Section */}
         <div className="flex items-center gap-12">
           {/* Logo */}
@@ -88,18 +67,7 @@ const UserNavbar = () => {
               Browse Companies
             </Link>
 
-            {isLogged && (
-              <Link
-                to="/user-dashboard"
-                className={`text-sm transition duration-200 ${
-                  isActive("/user-dashboard")
-                    ? "text-indigo-600 border-b-2 border-indigo-600"
-                    : "hover:text-indigo-600"
-                }`}
-              >
-                My Dashboard
-              </Link>
-            )}
+
           </div>
         </div>
 
