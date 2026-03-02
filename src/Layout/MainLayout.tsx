@@ -8,7 +8,7 @@ const MainLayout = () => {
   const role = useAppSelector((state) => state.auth.role);
 
   return (
-    <div className="w-[1440px] mx-auto flex flex-col">
+    <div className="lg:w-[1440px] sm:w-full mx-auto flex flex-col">
       {/* Render appropriate navbar based on role */}
       {role === "admin" ? <AdminNavbar /> : <UserNavbar />}
 

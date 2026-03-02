@@ -1,8 +1,8 @@
 
 
 const ShortBanner: React.FC = () => (
-  <div className="py-8 px-[124px] bg-white">
-    <div className=" py-8 px-[28px] bg-gradient-to-r from-indigo-500 to-blue-400  rounded">
+  <div className="py-8 px-4 md:px-[124px] bg-white">
+    <div className=" py-8 px-4 md:px-[28px] bg-gradient-to-r from-indigo-500 to-blue-400 rounded">
     <div className="mx-auto flex items-center justify-between">
       <div className="text-white">
         <h3 className="text-2xl font-extrabold">Start posting  jobs today</h3>

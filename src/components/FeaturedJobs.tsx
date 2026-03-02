@@ -17,7 +17,7 @@ const FeaturedJobs = () => {
     }
   }, [jobs.length, dispatch]);
   return (
-    <div className="px-[124px] bg-white py-8">
+    <div className="px-4 md:px-[124px] bg-white py-8">
       <div className="mx-auto">
 
         {/* Section Title */}

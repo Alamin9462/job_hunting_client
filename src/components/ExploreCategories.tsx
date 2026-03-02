@@ -12,7 +12,7 @@ const categories = [
 
 const CategorySection = () => {
   return (
-    <div className=" px-[124px] bg-white py-8">
+    <div className="px-4 md:px-[124px] bg-white py-8">
       <h2 className="text-3xl font-extrabold mb-10">
         Explore by{" "}
         <span className="text-indigo-600 font-extrabold">Category</span>

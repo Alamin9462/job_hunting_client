@@ -21,7 +21,7 @@ const LatestJobs = () => {
   }, [jobs.length, dispatch]);
 
   return (
-    <div className=" bg-[#f9f8fd] py-8 px-[124px]">
+    <div className="bg-[#f9f8fd] py-8 px-4 md:px-[124px]">
       <div className="mx-auto">
 
         {/* Heading Section */}

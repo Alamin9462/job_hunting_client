@@ -23,7 +23,7 @@ const CompanyLogos = () => {
   ];
 
   return (
-    <div className=" px-[124px]  bg-white py-8">
+    <div className="px-4 md:px-[124px] bg-white py-8">
       <div className=" mx-auto px-8 text-center">
 
         {/* Title */}
