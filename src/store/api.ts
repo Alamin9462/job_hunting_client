@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:5000/api/v1";
+const BASE_URL = "https://job-hunting-server-chi.vercel.app/";
 
 export async function apiFetch(path: string, options: RequestInit = {}) {
   const token = localStorage.getItem("token");
