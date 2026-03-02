@@ -61,6 +61,7 @@ const AdminDashboard: React.FC = () => {
       okType: "danger",
       cancelText: "Cancel",
       onOk() {
+        // make sure to send the MongoDB _id if available
         dispatch(deleteJob(jobId))
           .then(() => message.success("Job deleted successfully"))
           .catch(() => message.error("Failed to delete job"));
@@ -74,26 +75,39 @@ const AdminDashboard: React.FC = () => {
       title: "Job Title",
       dataIndex: "title",
       key: "title",
-      width: 200,
+      width: 150,
     },
     {
       title: "Company",
       dataIndex: "company",
       key: "company",
-      width: 150,
+      width: 120,
     },
     {
       title: "Location",
       dataIndex: "location",
       key: "location",
-      width: 150,
+      width: 120,
+    },
+    {
+      title: "Type",
+      dataIndex: "job_type",
+      key: "job_type",
+      width: 100,
     },
     {
       title: "Salary",
       dataIndex: "salary",
       key: "salary",
-      width: 120,
+      width: 100,
       render: (salary: string) => `$${salary}`,
+    },
+    {
+      title: "Logo",
+      dataIndex: "company_logo",
+      key: "company_logo",
+      width: 120,
+      render: (url: string) => url ? <img src={url} alt="logo" className="h-8" /> : null,
     },
     {
       title: "Actions",
@@ -116,7 +130,7 @@ const AdminDashboard: React.FC = () => {
             danger
             size="small"
             icon={<FaTrash />}
-            onClick={() => handleDeleteJob(record.id)}
+            onClick={() => handleDeleteJob(record._id || record.id)}
           >
             Delete
           </Button>
@@ -401,9 +415,30 @@ const AdminDashboard: React.FC = () => {
           </Form.Item>
 
           <Form.Item
+            name="job_type"
+            label="Job Type"
+            rules={[{ required: true, message: "Please select job type" }]}
+          >
+            <Select placeholder="Select job type">
+              <Select.Option value="Full-time">Full-time</Select.Option>
+              <Select.Option value="Part-time">Part-time</Select.Option>
+              <Select.Option value="Contract">Contract</Select.Option>
+              <Select.Option value="Internship">Internship</Select.Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="company_logo"
+            label="Company Logo URL"
+            rules={[{ required: true, type: 'url', message: 'Please enter a valid URL' }]}
+          >
+            <Input placeholder="https://example.com/logo.png" />
+          </Form.Item>
+
+          <Form.Item
             name="category"
             label="Category"
-            rules={[{ required: true, message: "Please select category" }]}
+            rules={[{ required: false }]}
           >
             <Select placeholder="Select category">
               <Select.Option value="IT">IT</Select.Option>

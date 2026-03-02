@@ -39,7 +39,7 @@ const FeaturedJobs = () => {
               {/* Company Logo */}
               <div className="flex items-center gap-3 mb-6">
                 <img
-                  src={job.logo}
+                  src={job.company_logo || ""}
                   alt={job.company}
                   className="h-10 w-10 object-contain"
                 />
@@ -68,7 +68,7 @@ const FeaturedJobs = () => {
 
               {/* Tags */}
               <div className="flex gap-2">
-                <Tag color="blue">{job.type}</Tag>
+                <Tag color="blue">{job.job_type}</Tag>
                 <Tag color="green">{job.category}</Tag>
               </div>
             </Card>

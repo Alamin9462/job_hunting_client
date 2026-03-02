@@ -45,9 +45,9 @@ const JobDetails: React.FC = () => {
 
       <Card className="mt-4 rounded-2xl">
         <div className="flex flex-col md:flex-row gap-6">
-          {job.logo && (
+          {job.company_logo && (
             <img
-              src={job.logo}
+              src={job.company_logo}
               alt={job.company}
               className="h-20 w-20 object-contain"
             />
@@ -64,14 +64,14 @@ const JobDetails: React.FC = () => {
                   <BsCurrencyDollar /> {job.salary}
                 </div>
               )}
-              {job.time && (
+              {job.job_type && (
                 <div className="flex items-center gap-1">
-                  <FiClock /> {job.time}
+                  <FiClock /> {job.job_type}
                 </div>
               )}
             </div>
             <div className="mt-2">
-              {job.type && <Tag color="blue">{job.type}</Tag>}
+              {job.job_type && <Tag color="blue">{job.job_type}</Tag>}
               {job.category && <Tag color="purple">{job.category}</Tag>}
             </div>
             {job.description && (

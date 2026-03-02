@@ -49,7 +49,7 @@ const LatestJobs = () => {
                 {/* Left Section */}
                 <div className="flex gap-4">
                   <img
-                    src={job.logo}
+                    src={job.company_logo || ""}
                     alt={job.company}
                     className="h-12 w-12 object-contain"
                   />
@@ -74,9 +74,10 @@ const LatestJobs = () => {
                         {job.salary}
                       </div>
 
+                      {/* job time removed - could show job_type if needed */}
                       <div className="flex items-center gap-1">
                         <FiClock />
-                        {job.time}
+                        {job.job_type || ""}
                       </div>
                     </div>
                   </div>
@@ -84,7 +85,7 @@ const LatestJobs = () => {
 
                 {/* Tags */}
                 <div className="flex flex-col gap-2">
-                  <Tag color="blue">{job.type}</Tag>
+                  <Tag color="blue">{job.job_type}</Tag>
                   <Tag color="purple">{job.category}</Tag>
                 </div>
 

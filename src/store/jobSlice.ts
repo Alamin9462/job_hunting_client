@@ -8,12 +8,12 @@ export interface Job {
   company: string;
   location: string;
   salary?: string;
-  time?: string;
-  type?: string;
+  job_type?: string;
   category?: string;
-  logo?: string;
+  company_logo?: string;
   description?: string;
-}
+  created_at?: string;
+}  
 
 interface JobState {
   jobs: Job[];

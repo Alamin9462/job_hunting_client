@@ -17,10 +17,10 @@ const HeroSection: React.FC<BannerProps> = ({ onSearch }) => {
   };
 
   return (
-    <div className=" px-[124px] bg-[#f9f8fd]">
-      <div className="grid md:grid-cols-2 gap-10 items-center">
+    <div className=" px-[124px] h-[650px] bg-[#f9f8fd]">
+      <div className="grid md:grid-cols-2 gap-10  items-center">
         {/* Left Content */}
-        <div>
+        <div className="flex flex-col justify-center mt-10">
           <h1 className="text-5xl font-extrabold text-gray-800 leading-tight">
             Discover <br /> more than <br />
             <span className="text-indigo-600 font-extrabold">5000+ Jobs</span>
@@ -73,7 +73,7 @@ const HeroSection: React.FC<BannerProps> = ({ onSearch }) => {
   <img
     src={Image}
     alt="hero"
-    className="relative w-full max-w-sm z-10"
+    className="relative w-full max-w-sm mt-10 z-10"
   />
 </div>
       </div>

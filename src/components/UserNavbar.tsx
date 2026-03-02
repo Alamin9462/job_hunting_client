@@ -1,4 +1,4 @@
-import { Button, Dropdown, Avatar } from "antd";
+import { Button, Dropdown, Avatar, type MenuProps } from "antd";
 import { FaBriefcase, FaBell, FaBookmark, FaUser } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
@@ -12,52 +12,50 @@ const UserNavbar = () => {
 
   const isActive = (path: string) => location.pathname === path;
 
-  const userMenu = {
-    items: [
-      {
-        key: "dashboard",
-        label: "My Dashboard",
-        onClick: () => {
-          // navigate to user dashboard
-        },
+  const userMenu: MenuProps["items"] = [
+    {
+      key: "dashboard",
+      label: "My Dashboard",
+      onClick: () => {
+        // navigate to user dashboard
       },
-      {
-        key: "applications",
-        label: "My Applications",
-        onClick: () => {
-          // navigate to applications
-        },
+    },
+    {
+      key: "applications",
+      label: "My Applications",
+      onClick: () => {
+        // navigate to applications
       },
-      {
-        key: "saved-jobs",
-        label: "Saved Jobs",
-        onClick: () => {
-          // navigate to saved jobs
-        },
+    },
+    {
+      key: "saved-jobs",
+      label: "Saved Jobs",
+      onClick: () => {
+        // navigate to saved jobs
       },
-      {
-        key: "profile",
-        label: "Profile",
-        onClick: () => {
-          // navigate to profile
-        },
+    },
+    {
+      key: "profile",
+      label: "Profile",
+      onClick: () => {
+        // navigate to profile
       },
-      {
-        type: "divider" as const,
+    },
+    {
+      type: "divider",
+    },
+    {
+      key: "logout",
+      label: "Logout",
+      onClick: () => {
+        dispatch(logout());
       },
-      {
-        key: "logout",
-        label: "Logout",
-        onClick: () => {
-          dispatch(logout());
-        },
-      },
-    ],
-  };
+    },
+  ];
 
   return (
     <div className="border-b border-gray-100 sticky top-0 z-50 bg-white shadow-sm">
-      <div className="mx-auto flex justify-between items-center px-4 md:px-31 py-4">
+      <div className="mx-auto flex justify-between items-center px-4 md:px-[124px] py-4">
         {/* Left Section */}
         <div className="flex items-center gap-12">
           {/* Logo */}
@@ -124,7 +122,7 @@ const UserNavbar = () => {
               />
 
               {/* User Dropdown */}
-              <Dropdown menu={userMenu} trigger={["click"]}>
+              <Dropdown menu={{ items: userMenu }} trigger={["click"]}>
                 <div className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 cursor-pointer transition">
                   <Avatar
                     size={36}

@@ -85,9 +85,9 @@ const Jobs: React.FC = () => {
             <Link to={`/jobs/${job._id || job.id}`} className="block">
               <div className="flex justify-between items-start gap-6">
                 <div className="flex gap-4">
-                  {job.logo && (
+                  {job.company_logo && (
                     <img
-                      src={job.logo}
+                      src={job.company_logo}
                       alt={job.company}
                       className="h-12 w-12 object-contain"
                     />
@@ -106,17 +106,17 @@ const Jobs: React.FC = () => {
                           {job.salary}
                         </div>
                       )}
-                      {job.time && (
+                      {job.job_type && (
                         <div className="flex items-center gap-1">
                           <FiClock />
-                          {job.time}
+                          {job.job_type}
                         </div>
                       )}
                     </div>
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
-                  {job.type && <Tag color="blue">{job.type}</Tag>}
+                  {job.job_type && <Tag color="blue">{job.job_type}</Tag>}
                   {job.category && <Tag color="purple">{job.category}</Tag>}
                 </div>
               </div>
