@@ -48,7 +48,6 @@ It allows users to browse jobs, submit applications, and admins to manage jobs a
 
 - Secure admin login
 - Create new job
-- Update job
 - Delete job
 - View all users (Admin only route)
 - View all submitted job applications
@@ -203,14 +202,11 @@ quickhire/
 - Backend → Vercel / Render
 - Database → MongoDB Atlas
 
-CI/CD enabled via GitHub integration.
-
 ---
 
 # 📱 Responsive Design
 
 - Mobile Friendly
-- Tablet Optimized
 - Desktop Ready
 - Modern Hero Section
 - Responsive Search Box
@@ -218,8 +214,7 @@ CI/CD enabled via GitHub integration.
 ---
 
 # 🔮 Future Improvements
-
-- Resume upload feature
+-  Resume upload feature
 - Application status tracking
 - Email notifications
 - Pagination & filtering
